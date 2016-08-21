@@ -1,3 +1,1 @@
-window.onload=function(){
-	var body=document.body;
-}
+.main{background:#efefef;background:-moz-linear-gradient(top,#efefef 0%,teal 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#efefef),color-stop(100%,teal));background:-webkit-linear-gradient(top,#efefef 0%,teal 100%);background:-o-linear-gradient(top,#efefef 0%,teal 100%);background:-ms-linear-gradient(top,#efefef 0%,teal 100%);background:linear-gradient(to bottom,#efefef 0%,teal 100%);filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#efefef',endColorstr='teal',GradientType=0 )}.main p{color:rgba(10,10,10,.6)}.intro{display:flex;height:60%;overflow:hidden}.intro span{flex:3}.intro span img{margin-top:3%;width:80%;float:left;vertical-align:middle}.intro span img:hover{transition:all .8s;transform:rotate(360deg);-ms-transform:rotate(360deg);-moz-transform:rotate(360deg);-webkit-transform:rotate(360deg);-o-transform:rotate(360deg);cursor:pointer}
