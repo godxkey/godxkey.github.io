@@ -1,16 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 	<head>
-		<meta charset="UTF-8">
-		<title>肖平的项目展示</title>
-		<script type="text/javascript">
-			/*暂时先不跳入这个简历页面吧-2017-2-4-决策者：肖平
-			https://www.giveyousomecolortoseesee.com/s?keywords=%B6%D4%B2%BB%C6%F0%A3%AC%C9%D4%BA%F3%BB%D6%B8%B4
-			http://jingyan.baidu.com/user/npublic?un=xiao1793156214
-			
-			;window.onload=function(){window.location.href="http://jingyan.baidu.com/article/a501d80c292d91ec630f5e3e.html";};
-			;window.location.href="http://jingyan.baidu.com/article/a501d80c292d91ec630f5e3e.html";*/
-		</script>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<title>肖平-项目案例展示</title>
+		<link rel="stylesheet" href="css/mySelfDoCss.css">
+		<link rel="shortcut icon" href="data:image/x-icon;base64,AAABAAEAICAQAAAAAADoAgAAFgAAACgAAAAgAAAAQAAAAAEABAAAAAAAgAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAACAAAAAgIAAgAAAAIAAgACAgAAAwMDAAICAgAAAAP8AAP8AAAD//wD/AAAA/wD/AP//AAD///8AAAAAAADM/7/wAAC7u/3d3QAAD8AAzMz+4AAA+7v93d2wAADAAMzMzwDuDu//3d3duwAAAADMzMwA4O7u793d3bvwAAAAzMzADw7u7u/d3d27/AAAAP//AADu7u793d3du/zAAAD//wAP/u7u/d3d3b/MzAAAD/AA///u7v3d3d2/zM/wAADwD////u793d3dv8z//wAAAP/////u/d3d3fzM///wAACq////7v3d3d38z///+gAACq////793d3d/P///6oAAACq/////d3d3fz///+qAAAACv////3d3d38///6oACgAACv///93d3d/P//+gAKqgAAD////d3d3fz///oACqqgAAD///3d3d3////wAKqqqgAAD//93d3dv///AACqqqqgAAD/793d3b//8AAKqqqqqgAAAAAAAAC//wAAqqqqqqqgAAAAAAAAu/DwAKqqqqqq/wAADv3dALsPAA+qqqqqqv/wAAD93QCwDwAP+qqqqq///wAAD90AAAAA//+qqqr////gAADdAAAAAP//////////7gAADQAAAA///////////u7gAAAAAAAL/////////+7u7wAAAAAAu7////////7u7/uwAAAAC7u7v/////7u//u7uwAAALu7u7u7+7///7u7u7uwCwu7u7u7u7u7u7u7u7u7sLsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==">
+		<script type="text/javascript" src="js/three.min.js"></script>
+		<script type="text/javascript" src="js/tween.min.js"></script>
+		<script type="text/javascript" src="js/TrackballControls.js"></script>
+		<script type="text/javascript" src="js/CSS3DRenderer.js"></script>
+		<!-- 
+			<script type="text/javascript">
+				/*暂时先不跳入这个简历页面吧-2017-2-4-决策者：肖平
+				https://www.giveyousomecolortoseesee.com/s?keywords=%B6%D4%B2%BB%C6%F0%A3%AC%C9%D4%BA%F3%BB%D6%B8%B4
+				http://jingyan.baidu.com/user/npublic?un=xiao1793156214
+				
+				;window.onload=function(){window.location.href="http://jingyan.baidu.com/article/a501d80c292d91ec630f5e3e.html";};
+				;window.location.href="http://jingyan.baidu.com/article/a501d80c292d91ec630f5e3e.html";*/
+			</script>
 		<!-- 
 			1.功能说明：
 				专门为展示项目而建造
@@ -27,48 +35,24 @@
 			3.2 采用较为稳定的兼容性能较好的div+css进行主要编码
 			3.3 布局方式是自然布局结合流动布局方式
 			3.5 添加百度地图的模块+有地图API密匙+嵌入一个百度首页搜索框架
+			3.6 此响应式导航（Responsive Nav）插件不依赖于任何第三方工具库，并且支持触屏操作。
+			4.全改后-更新说明
+			4.1 本次参照元素周期表的three.js css3d - periodic table. info.设计进行了修整
+			4.2 内容填充了五个div作为展示，同时保持着原有index文件的不删除（改名）
+			4.3 在页面跳转方面采用读取className的数组进行window.location.href的形式的跳转
+			4.4 使用this.index来读取数据，绑定在array[k].index=k上面
+			4.5 对样式的固定px进行%的重构
 		 -->
-		<!-- 此响应式导航（Responsive Nav）插件不依赖于任何第三方工具库，并且支持触屏操作。 -->
-		<link rel="shortcut icon" href="data:image/x-icon;base64,AAABAAEAICAQAAAAAADoAgAAFgAAACgAAAAgAAAAQAAAAAEABAAAAAAAgAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAACAAAAAgIAAgAAAAIAAgACAgAAAwMDAAICAgAAAAP8AAP8AAAD//wD/AAAA/wD/AP//AAD///8AAAAAAADM/7/wAAC7u/3d3QAAD8AAzMz+4AAA+7v93d2wAADAAMzMzwDuDu//3d3duwAAAADMzMwA4O7u793d3bvwAAAAzMzADw7u7u/d3d27/AAAAP//AADu7u793d3du/zAAAD//wAP/u7u/d3d3b/MzAAAD/AA///u7v3d3d2/zM/wAADwD////u793d3dv8z//wAAAP/////u/d3d3fzM///wAACq////7v3d3d38z///+gAACq////793d3d/P///6oAAACq/////d3d3fz///+qAAAACv////3d3d38///6oACgAACv///93d3d/P//+gAKqgAAD////d3d3fz///oACqqgAAD///3d3d3////wAKqqqgAAD//93d3dv///AACqqqqgAAD/793d3b//8AAKqqqqqgAAAAAAAAC//wAAqqqqqqqgAAAAAAAAu/DwAKqqqqqq/wAADv3dALsPAA+qqqqqqv/wAAD93QCwDwAP+qqqqq///wAAD90AAAAA//+qqqr////gAADdAAAAAP//////////7gAADQAAAA///////////u7gAAAAAAAL/////////+7u7wAAAAAAu7////////7u7/uwAAAAC7u7v/////7u//u7uwAAALu7u7u7+7///7u7u7uwCwu7u7u7u7u7u7u7u7u7sLsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==">
-    	<meta name="viewport" content="width=device-width,initial-scale=1">
-    	<base target="_self"></base>
-		<link rel="stylesheet" href="css/responsive-nav.min.css">
-		<!--[if lte IE 8]><link rel="stylesheet" href="css/responsive-nav.min.css"><![endif]-->
-		<!--[if gt IE 8]><!--><link rel="stylesheet" href="css/styles.css"><!--<![endif]-->
-		<link rel="stylesheet" href="css/responsive-nav.min.css">  
-		<script type="text/javascript" src="js/responsive-nav.min.js"></script>
-		<link rel="stylesheet" href="css/coolCss.css">
-		<link rel="stylesheet" href="css/jieShao.css">
-		<script type="text/javascript" src="js/motaikuang.js" defer></script>
 	</head>
-	<body> 
-		<div role="navigation" id="foo" class="nav-collapse">
-			<ul>
-				<li class="active"><a href="#homes">首&ensp;&emsp;页</a></li>
-				<li><a href="index.html" id="selfInfo">关于-肖平</a></li>
-				<li><a href="https://github.com/godxkey" >【1】github-肖平</a></li>
-				<li><a href="./baiduMap-testDemo/index.html" >【2】百度地图-部分功能-肖平</a></li>
-				<li><a href="phoneJD/index.html" >【3】手机京东(部分)</a></li>
-				<li><a href="http://www.bestamall.com/" >【4】贝斯达商城</a></li>
-				<li><a href="https://github.com/godxkey/trust-zh-CN/index.html" >【5】添加一个小小游戏-信任的进化</a></li>
-			</ul>
-		</div> 
-		<div role="main" class="main"> 
-			<ul id="ProInfos">
-				<li><br/><a href="https://github.com/godxkey" id="MySelfInfos">个人Git</a></li>
-				<li><br/>肖平-做过的部分项目:</li>
-				<li>
-					<div class="displayFlex simpleViews">
-						<a href="./baiduMap-testDemo/index.html" class="flex1">【1】<br/>百度地图-部分</a>
-						<a href="phoneJD/index.html" class="flex1">【2】<br/>手机京东(部分)</a>
-						<a href="http://www.bestamall.com/"class="flex1">【3】<br/>贝斯达商城</a>
-						<a href="https://github.com/godxkey/trust-zh-CN/index.html">【5】<br/>信任的进化</a>
-					</div>
-				</li>
-			</ul>
-		</div> 
-		<script>
-		var navigation = responsiveNav("foo", {customToggle: ".nav-toggle"});
-		</script>
+	<body>
+		<div id="container"></div>
+		<div id="menu">
+			<button id="table">表格形式</button>
+			<button id="sphere">球形模式</button>
+			<button id="helix">一个大环</button>
+			<button id="grid" style="display: none;">冲击式</button>
+			<a href='javascript:void 0;' class='someGo' onclick="if(confirm('你确定要看原始版页面？\nO(∩_∩)O~好的，\n这就->请准备！')){window.location.href='hiMe.html';};">Xp</a>
+		</div>
 	</body>
+	<script type="text/javascript" src="js/mySelfDo.js"></script>
 </html>
