@@ -44,6 +44,7 @@
 			4.5 对样式的固定px进行%的重构
 		 -->
 	</head>
+<<<<<<< HEAD
 	<body>
 		<div id="container"></div>
 		<div id="menu">
@@ -53,6 +54,37 @@
 			<button id="grid" style="display: none;">冲击式</button>
 			<a href='javascript:void 0;' class='someGo' onclick="if(confirm('你确定要看原始版页面？\nO(∩_∩)O~好的，\n这就->请准备！')){window.location.href='hiMe.html';};">Xp</a>
 		</div>
+=======
+	<body> 
+		<div role="navigation" id="foo" class="nav-collapse">
+			<ul>
+				<li class="active"><a href="#homes">首&ensp;&emsp;页</a></li>
+				<li><a href="index.html" id="selfInfo">关于-肖平</a></li>
+				<li><a href="https://github.com/godxkey" >【1】github-肖平</a></li>
+				<li><a href="./baiduMap-testDemo/index.html" >【2】百度地图-部分功能-肖平</a></li>
+				<li><a href="phoneJD/index.html" >【3】手机京东(部分)</a></li>
+				<li><a href="http://www.bestamall.com/" >【4】贝斯达商城</a></li>
+				<li><a href="/trust-zh-CN" >【5】添加一个小小游戏-信任的进化</a></li>
+			</ul>
+		</div> 
+		<div role="main" class="main"> 
+			<ul id="ProInfos">
+				<li><br/><a href="https://github.com/godxkey" id="MySelfInfos">个人Git</a></li>
+				<li><br/>肖平-做过的部分项目:</li>
+				<li>
+					<div class="displayFlex simpleViews">
+						<a href="./baiduMap-testDemo/index.html" class="flex1">【1】<br/>百度地图-部分</a>
+						<a href="phoneJD/index.html" class="flex1">【2】<br/>手机京东(部分)</a>
+						<a href="http://www.bestamall.com/"class="flex1">【3】<br/>贝斯达商城</a>
+						<a href="/trust-zh-CN">【5】<br/>信任的进化</a>
+					</div>
+				</li>
+			</ul>
+		</div> 
+		<script>
+		var navigation = responsiveNav("foo", {customToggle: ".nav-toggle"});
+		</script>
+>>>>>>> 27b147da4fdc8bd28fccefbeb052f29963ca9394
 	</body>
 	<script type="text/javascript" src="js/mySelfDo.js"></script>
 </html>
