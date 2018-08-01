@@ -235,9 +235,9 @@
 	;window.onload=function(){
 		var aChangeArray=document.getElementsByClassName('element');
 		var Alladress=[
-			'https://github.com/godxkey',
+// 			'https://github.com/godxkey',
 			'https://godxkey.github.io/baiduMap-testDemo/index.html',
-			'https://godxkey.github.io/phoneJD/index.html',
+// 			'https://godxkey.github.io/phoneJD/index.html',
 			'http://www.bestamall.com/',
 			'https://godxkey.github.io/trust-zh-CN'
 		];
