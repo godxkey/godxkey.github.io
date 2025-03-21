@@ -47,25 +47,178 @@
             color: #a8b2d1;
             display: flex;
             justify-content: center;
+            align-items: center;
             gap: 20px;
+            flex-wrap: wrap;
         }
 
-        .author-info a {
-            color: #4facfe;
-            text-decoration: none;
+        .author-info span {
+            cursor: pointer;
             transition: all 0.3s ease;
             padding: 8px 15px;
             border-radius: 20px;
-            background: rgba(79, 172, 254, 0.1);
-            border: 1px solid rgba(79, 172, 254, 0.2);
+            background: rgba(155, 89, 182, 0.1);
+            border: 1px solid rgba(155, 89, 182, 0.2);
         }
 
-        .author-info a:hover {
-            color: #00f2fe;
+        .author-info span:hover {
+            background: rgba(155, 89, 182, 0.2);
+            border-color: rgba(155, 89, 182, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(155, 89, 182, 0.2);
+        }
+
+        .qq-copy-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #copyQQ {
+            background: rgba(79, 172, 254, 0.1);
+            border: 1px solid rgba(79, 172, 254, 0.2);
+            color: #4facfe;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 16px;
+            width: 120px;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        #copyQQ:focus {
             background: rgba(79, 172, 254, 0.2);
             border-color: rgba(79, 172, 254, 0.4);
-            transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(79, 172, 254, 0.2);
+        }
+
+        .copy-btn {
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .copy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
+        }
+
+        .copy-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .copy-tooltip.show {
+            opacity: 1;
+            visibility: visible;
+            bottom: calc(100% + 10px);
+        }
+
+        /* 添加页面加载动画 */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #1a1a2e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(79, 172, 254, 0.3);
+            border-radius: 50%;
+            border-top-color: #4facfe;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* 添加滚动提示 */
+        .scroll-hint {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+
+        .split-view .scroll-hint {
+            opacity: 1;
+        }
+
+        .scroll-icon {
+            width: 20px;
+            height: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .scroll-icon::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: scroll 1.5s infinite;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translate(-50%, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, 10px);
+                opacity: 0;
+            }
         }
 
         .container {
@@ -321,17 +474,38 @@
                 font-size: 14px;
                 width: auto;
             }
+
+            .author-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .qq-copy-container {
+                flex-direction: column;
+            }
+
+            #copyQQ {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+
     <div class="header">
         <h1>Tiled 通用寻路示例</h1>
         <div class="author-info">
-            <span>作者: Cocos 小有</span>
-            <a href="mailto:386437237@qq.com" title="发送邮件">发送邮件:386437237@qq.com</a>
-            <a href="tencent://message/?uin=386437237" title="QQ联系">QQ联系:386437237</a>
-            <input type="text" name="copyQQ" id="copyQQ" value="386437237" readonly>
+            <span onclick="window.open('https://store.cocos.com/app/search?name=%E5%B0%8F%E6%9C%89', '_blank')" style="cursor: pointer;">作者: Cocos 小有</span>
+            <a href="mailto:386437237@qq.com" title="发送邮件">发送邮件</a>
+            <a href="tencent://message/?uin=386437237" title="QQ联系">QQ联系</a>
+            <div class="qq-copy-container">
+                <input type="text" name="copyQQ" id="copyQQ" value="386437237" readonly>
+                <button class="copy-btn" onclick="copyQQNumber()">复制QQ号</button>
+                <div class="copy-tooltip">QQ号: 386437237 复制成功！</div>
+            </div>
         </div>
     </div>
 
@@ -370,6 +544,11 @@
     <div class="carousel-dots">
         <div class="dot active" onclick="switchVersion('3x')"></div>
         <div class="dot" onclick="switchVersion('2x')"></div>
+    </div>
+
+    <div class="scroll-hint">
+        <div class="scroll-icon"></div>
+        <span>滚动查看更多</span>
     </div>
 
     <script>
@@ -451,6 +630,45 @@
                 switchVersion('3x');
             } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
                 switchVersion('2x');
+            }
+        });
+
+        // 添加复制QQ号功能
+        function copyQQNumber() {
+            const copyText = document.getElementById("copyQQ");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // For mobile devices
+            
+            try {
+                navigator.clipboard.writeText(copyText.value).then(() => {
+                    showCopyTooltip();
+                });
+            } catch (err) {
+                document.execCommand('copy');
+                showCopyTooltip();
+            }
+        }
+
+        function showCopyTooltip() {
+            const tooltip = document.querySelector('.copy-tooltip');
+            tooltip.classList.add('show');
+            setTimeout(() => {
+                tooltip.classList.remove('show');
+            }, 2000);
+        }
+
+        // 添加页面加载动画
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.loading-overlay').classList.add('fade-out');
+            }, 500);
+        });
+
+        // 监听滚动事件来隐藏滚动提示
+        document.querySelector('.container').addEventListener('scroll', () => {
+            const scrollHint = document.querySelector('.scroll-hint');
+            if (scrollHint.style.opacity !== '0') {
+                scrollHint.style.opacity = '0';
             }
         });
 
