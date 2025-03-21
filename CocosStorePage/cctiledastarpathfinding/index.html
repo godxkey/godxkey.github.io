@@ -379,6 +379,9 @@
         // 2.6秒以后切换为轮播图布局
         setTimeout(() => {
             // toggleLayout();
+            isCarouselView = !isCarouselView;
+            document.body.classList.toggle('split-view', !isCarouselView);
+            document.body.classList.toggle('carousel-view', isCarouselView);
             // 切换到轮播图布局时，只显示当前活动的容器
             const activeVersion = document.querySelector('.btn-version.active').dataset.version;
             switchVersion(activeVersion);
