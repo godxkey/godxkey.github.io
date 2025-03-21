@@ -59,6 +59,7 @@
             border-radius: 20px;
             background: rgba(155, 89, 182, 0.1);
             border: 1px solid rgba(155, 89, 182, 0.2);
+            color: #9b59b6;
         }
 
         .author-info span:hover {
@@ -66,6 +67,73 @@
             border-color: rgba(155, 89, 182, 0.4);
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(155, 89, 182, 0.2);
+            color: #fff;
+        }
+
+        .author-info a {
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .author-info a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .author-info a:hover::before {
+            opacity: 1;
+        }
+
+        .author-info a[href^="mailto"] {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+            border: 1px solid rgba(231, 76, 60, 0.2);
+        }
+
+        .author-info a[href^="mailto"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+            border-color: rgba(231, 76, 60, 0.4);
+        }
+
+        .author-info a[href^="mailto"]::after {
+            content: '✉';
+            font-size: 14px;
+            margin-left: 5px;
+        }
+
+        .author-info a[href^="tencent"] {
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            color: white;
+            border: 1px solid rgba(79, 172, 254, 0.2);
+        }
+
+        .author-info a[href^="tencent"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
+            border-color: rgba(79, 172, 254, 0.4);
+        }
+
+        .author-info a[href^="tencent"]::after {
+            content: '💬';
+            font-size: 14px;
+            margin-left: 5px;
         }
 
         .qq-copy-container {
@@ -82,7 +150,7 @@
             padding: 8px 15px;
             border-radius: 20px;
             font-size: 16px;
-            width: 120px;
+            width: 180px;
             text-align: center;
             outline: none;
             transition: all 0.3s ease;
@@ -478,6 +546,12 @@
             .author-info {
                 flex-direction: column;
                 gap: 10px;
+                padding: 0 20px;
+            }
+
+            .author-info a {
+                width: 100%;
+                justify-content: center;
             }
 
             .qq-copy-container {
@@ -498,11 +572,11 @@
     <div class="header">
         <h1>Tiled 通用寻路示例</h1>
         <div class="author-info">
-            <span onclick="window.open('https://store.cocos.com/app/search?name=%E5%B0%8F%E6%9C%89', '_blank')" style="cursor: pointer;">作者: Cocos 小有</span>
+            <span onclick="window.open('https://store.cocos.com/app/search?name=%E5%B0%8F%E6%9C%89', '_blank')">作者: Cocos 小有</span>
             <a href="mailto:386437237@qq.com" title="发送邮件">发送邮件</a>
             <a href="tencent://message/?uin=386437237" title="QQ联系">QQ联系</a>
             <div class="qq-copy-container">
-                <input type="text" name="copyQQ" id="copyQQ" value="386437237" readonly>
+                <input type="text" name="copyQQ" id="copyQQ" value="QQ: 386437237" readonly>
                 <button class="copy-btn" onclick="copyQQNumber()">复制QQ号</button>
                 <div class="copy-tooltip">QQ号: 386437237 复制成功！</div>
             </div>
