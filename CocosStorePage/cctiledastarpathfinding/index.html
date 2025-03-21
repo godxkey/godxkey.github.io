@@ -329,8 +329,9 @@
         <h1>Tiled 通用寻路示例</h1>
         <div class="author-info">
             <span>作者: Cocos 小有</span>
-            <a href="mailto:386437237@qq.com" title="发送邮件">发送邮件</a>
-            <a href="tencent://message/?uin=386437237" title="QQ联系">QQ联系</a>
+            <a href="mailto:386437237@qq.com" title="发送邮件">发送邮件:386437237@qq.com</a>
+            <a href="tencent://message/?uin=386437237" title="QQ联系">QQ联系:386437237</a>
+            <input type="text" name="copyQQ" id="copyQQ" value="386437237" readonly>
         </div>
     </div>
 
@@ -357,12 +358,12 @@
             <button onclick="toggleLayout()" class="btn-layout">切换布局模式</button>
         </div>
         <div class="menu-section">
-            <button onclick="switchVersion('3x')" class="btn-version active" data-version="3x">Cocos 3.x</button>
-            <button onclick="switchVersion('2x')" class="btn-version" data-version="2x">Cocos 2.x</button>
+            <button onclick="switchVersion('3x')" class="btn-version active" data-version="3x">Cocos 3.x</button><br/>
+            <button onclick="switchVersion('2x')" class="btn-version" data-version="2x">Cocos 2.x</button><br/>
         </div>
         <div class="menu-section">
-            <a href="https://store.cocos.com/app/detail/7460" target="_blank" class="btn-buy">购买插件</a>
-            <a href="https://store.cocos.com/app/search?name=%E5%B0%8F%E6%9C%89" target="_blank" class="btn-author">作者主页</a>
+            <a href="https://store.cocos.com/app/detail/7460" target="_blank" class="btn-buy">购买插件</a><br/>
+            <a href="https://store.cocos.com/app/search?name=%E5%B0%8F%E6%9C%89" target="_blank" class="btn-author">作者主页</a><br/>
         </div>
     </div>
 
@@ -375,7 +376,18 @@
         let isCarouselView = false;
         const container = document.querySelector('.container');
         const versionButtons = document.querySelectorAll('.btn-version');
+        // 2.6秒以后切换为轮播图布局
+        setTimeout(() => {
+            // toggleLayout();
+            // 切换到轮播图布局时，只显示当前活动的容器
+            const activeVersion = document.querySelector('.btn-version.active').dataset.version;
+            switchVersion(activeVersion);
+        }, 2600);
 
+
+        /**
+         * 切换布局模式
+         */
         function toggleLayout() {
             isCarouselView = !isCarouselView;
             document.body.classList.toggle('split-view', !isCarouselView);
@@ -393,6 +405,10 @@
             }
         }
 
+        /**
+         * 切换版本
+         * @param {string} version - 版本号
+         */
         function switchVersion(version) {
             if (!isCarouselView) return; // 在上下布局模式下不切换版本
 
