@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cocos Tiled 寻路示例 - by 小有</title>
+    <link rel="icon" type="image/png" href="https://download.cocos.com/CocosStore/resource/00f44c00c5e94bc4ae26f36eb42cd5a8/00f44c00c5e94bc4ae26f36eb42cd5a8.png">
     <style>
         * {
             margin: 0;
@@ -13,37 +14,113 @@
         
         body {
             font-family: 'Microsoft YaHei', sans-serif;
-            background: #f0f2f5;
-            color: #333;
+            background: #1a1a2e;
+            color: #fff;
+            overflow: hidden;
         }
 
         .header {
-            background: #2c3e50;
+            background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
             color: white;
-            padding: 20px;
+            padding: 25px;
             text-align: center;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #4facfe 0%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(79, 172, 254, 0.5);
         }
 
         .author-info {
-            font-size: 14px;
+            font-size: 16px;
             margin-top: 10px;
-            color: #bdc3c7;
-        }
-
-        .container {
+            color: #a8b2d1;
             display: flex;
-            flex-direction: column;
-            height: calc(100vh - 100px);
-            padding: 20px;
+            justify-content: center;
             gap: 20px;
         }
 
-        .demo-frame {
-            flex: 1;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        .author-info a {
+            color: #4facfe;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: rgba(79, 172, 254, 0.1);
+            border: 1px solid rgba(79, 172, 254, 0.2);
+        }
+
+        .author-info a:hover {
+            color: #00f2fe;
+            background: rgba(79, 172, 254, 0.2);
+            border-color: rgba(79, 172, 254, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.2);
+        }
+
+        .container {
+            height: calc(100vh - 100px);
+            position: relative;
             overflow: hidden;
+            background: #1a1a2e;
+        }
+
+        .carousel {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .split-view .carousel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .demo-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transition: all 0.5s ease-in-out;
+            opacity: 0;
+            padding: 20px;
+            pointer-events: none;
+        }
+
+        .carousel-view .demo-container.active {
+            opacity: 1;
+            z-index: 1;
+            pointer-events: auto;
+        }
+
+        .split-view .demo-container {
+            position: relative;
+            height: calc(50% - 10px);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .demo-frame {
+            width: 100%;
+            height: 100%;
+            background: #16213e;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .demo-frame iframe {
@@ -54,44 +131,196 @@
 
         .floating-menu {
             position: fixed;
-            right: 20px;
+            right: 40px;
             top: 50%;
             transform: translateY(-50%);
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            background: rgba(22, 33, 62, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            min-width: 240px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .floating-menu a {
+        .menu-section {
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 25px;
+            margin-bottom: 5px;
+        }
+
+        .menu-section:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+
+        .floating-menu a, .floating-menu button {
             display: block;
-            padding: 10px 15px;
-            color: #2c3e50;
+            width: 100%;
+            padding: 15px 25px;
             text-decoration: none;
             transition: all 0.3s ease;
-            border-radius: 4px;
-            margin: 5px 0;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 16px;
+            text-align: center;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
         }
 
-        .floating-menu a:hover {
-            background: #3498db;
+        .floating-menu a::before, .floating-menu button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .floating-menu a:hover::before, .floating-menu button:hover::before {
+            opacity: 1;
+        }
+
+        .btn-layout {
+            background: linear-gradient(45deg, #2ecc71, #27ae60);
             color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-layout:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+        }
+
+        .btn-version {
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-version:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
+        }
+
+        .btn-version.active {
+            background: linear-gradient(45deg, #00f2fe, #4facfe);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .btn-buy {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-buy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-author {
+            background: linear-gradient(45deg, #9b59b6, #8e44ad);
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-author:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(155, 89, 182, 0.3);
         }
 
         .version-label {
             position: absolute;
-            top: 10px;
-            left: 10px;
-            background: rgba(0,0,0,0.5);
+            top: 15px;
+            left: 15px;
+            background: rgba(0, 0, 0, 0.6);
             color: white;
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 12px;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            z-index: 2;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            letter-spacing: 1px;
         }
 
-        .demo-container {
-            position: relative;
+        .carousel-dots {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .carousel-view .carousel-dots {
+            opacity: 1;
+        }
+
+        .dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dot.active {
+            background: #4facfe;
+            box-shadow: 0 0 15px rgba(79, 172, 254, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .floating-menu {
+                bottom: 30px;
+                top: auto;
+                right: 50%;
+                transform: translateX(50%);
+                flex-direction: row;
+                padding: 20px;
+                min-width: auto;
+                width: 90%;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .menu-section {
+                border-bottom: none;
+                padding-bottom: 0;
+                margin-bottom: 0;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .floating-menu a, .floating-menu button {
+                padding: 12px 20px;
+                font-size: 14px;
+                width: auto;
+            }
         }
     </style>
 </head>
@@ -99,29 +328,115 @@
     <div class="header">
         <h1>Tiled 通用寻路示例</h1>
         <div class="author-info">
-            作者: Cocos 小有 (QQ：386437237@qq.com)
+            <span>作者: Cocos 小有</span>
+            <a href="mailto:386437237@qq.com" title="发送邮件">发送邮件</a>
+            <a href="tencent://message/?uin=386437237" title="QQ联系">QQ联系</a>
         </div>
     </div>
 
     <div class="container">
-        <div class="demo-container">
-            <div class="version-label">Cocos Creator 3.x</div>
-            <div class="demo-frame">
-                <iframe src="Cocos3xTiledcommon_min.html" frameborder="0"></iframe>
+        <div class="carousel">
+            <div class="demo-container active" data-version="3x">
+                <div class="version-label">Cocos Creator 3.x</div>
+                <div class="demo-frame">
+                    <iframe src="Cocos3xTiledcommon_min.html" frameborder="0"></iframe>
+                </div>
             </div>
-        </div>
-        
-        <div class="demo-container">
-            <div class="version-label">Cocos Creator 2.x</div>
-            <div class="demo-frame">
-                <iframe src="Cocos2xTiledcommon_min.html" frameborder="0"></iframe>
+            
+            <div class="demo-container" data-version="2x">
+                <div class="version-label">Cocos Creator 2.x</div>
+                <div class="demo-frame">
+                    <iframe src="Cocos2xTiledcommon_min.html" frameborder="0"></iframe>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="floating-menu">
-        <a href="https://store.cocos.com/app/detail/7460" target="_blank">购买插件</a>
-        <a href="https://store.cocos.com/app/search?name=%E5%B0%8F%E6%9C%89" target="_blank">作者主页</a>
+        <div class="menu-section">
+            <button onclick="toggleLayout()" class="btn-layout">切换布局模式</button>
+        </div>
+        <div class="menu-section">
+            <button onclick="switchVersion('3x')" class="btn-version active" data-version="3x">Cocos 3.x</button>
+            <button onclick="switchVersion('2x')" class="btn-version" data-version="2x">Cocos 2.x</button>
+        </div>
+        <div class="menu-section">
+            <a href="https://store.cocos.com/app/detail/7460" target="_blank" class="btn-buy">购买插件</a>
+            <a href="https://store.cocos.com/app/search?name=%E5%B0%8F%E6%9C%89" target="_blank" class="btn-author">作者主页</a>
+        </div>
     </div>
+
+    <div class="carousel-dots">
+        <div class="dot active" onclick="switchVersion('3x')"></div>
+        <div class="dot" onclick="switchVersion('2x')"></div>
+    </div>
+
+    <script>
+        let isCarouselView = false;
+        const container = document.querySelector('.container');
+        const versionButtons = document.querySelectorAll('.btn-version');
+
+        function toggleLayout() {
+            isCarouselView = !isCarouselView;
+            document.body.classList.toggle('split-view', !isCarouselView);
+            document.body.classList.toggle('carousel-view', isCarouselView);
+            
+            if (!isCarouselView) {
+                // 切换到上下布局时，显示所有容器
+                document.querySelectorAll('.demo-container').forEach(container => {
+                    container.style.display = 'block';
+                });
+            } else {
+                // 切换到轮播图布局时，只显示当前活动的容器
+                const activeVersion = document.querySelector('.btn-version.active').dataset.version;
+                switchVersion(activeVersion);
+            }
+        }
+
+        function switchVersion(version) {
+            if (!isCarouselView) return; // 在上下布局模式下不切换版本
+
+            const containers = document.querySelectorAll('.demo-container');
+            const dots = document.querySelectorAll('.dot');
+            
+            containers.forEach(container => {
+                if (container.dataset.version === version) {
+                    container.classList.add('active');
+                } else {
+                    container.classList.remove('active');
+                }
+            });
+
+            dots.forEach((dot, index) => {
+                if ((version === '3x' && index === 0) || (version === '2x' && index === 1)) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+
+            versionButtons.forEach(button => {
+                if (button.dataset.version === version) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+        }
+
+        // 添加键盘快捷键支持
+        document.addEventListener('keydown', (e) => {
+            if (!isCarouselView) return; // 在上下布局模式下不响应键盘事件
+
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                switchVersion('3x');
+            } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                switchVersion('2x');
+            }
+        });
+
+        // 初始化为上下布局
+        document.body.classList.add('split-view');
+    </script>
 </body>
 </html>
